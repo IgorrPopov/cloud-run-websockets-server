@@ -1,0 +1,33 @@
+steps:
+    - name: 'gcr.io/cloud-builders/docker'
+      args:
+          [
+              'build',
+              '-t',
+              'gcr.io/test-cloud-run-project-338708/test-app',
+              '.',
+          ]
+    - name: 'gcr.io/cloud-builders/docker'
+      args:
+          [
+              'push',
+              'gcr.io/test-cloud-run-project-338708/test-app',
+          ]
+    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+      entrypoint: gcloud
+      args:
+          - 'run'
+          - 'deploy'
+          - 'test-app'
+          - '--image'
+          - 'gcr.io/test-cloud-run-project-338708/test-app'
+          - '--region'
+          - 'us-central1'
+          - '--platform'
+          - 'managed'
+          - '--service-account'
+          - '1000707561735-compute@developer.gserviceaccount.com'
+          - '--allow-unauthenticated'
+
+images:
+    - 'gcr.io/test-cloud-run-project-338708/test-app'
