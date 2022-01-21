@@ -1,3 +1,4 @@
+import { CACHE_MANAGER, Inject } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -14,13 +15,24 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  handleConnection(client: any) {
-    console.log('handleConnection:', client.id);
-    console.log('handleConnection:', client.handshake.query.userId);
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: any) {}
+
+  async handleConnection(client: any) {
+    await this.cacheManager.set(client.handshake.query.userId, client.id, {
+      ttl: 0,
+    });
+
+    await this.cacheManager.set(client.id, client.handshake.query.userId, {
+      ttl: 0,
+    });
   }
 
-  handleDisconnect(client: any) {
-    console.log('handleDisconnect:', client.id);
+  async handleDisconnect(client: any) {
+    const userId: string = await this.cacheManager.get(client.id);
+    await this.cacheManager.del(client.id);
+    await this.cacheManager.del(userId);
+
+    this.server.emit('userLeft', userId);
   }
 
   @SubscribeMessage('message')
