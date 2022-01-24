@@ -3,14 +3,6 @@ steps:
       args:
           [
               'build',
-               '--build-arg',
-              '_REDIS_HOST=${_REDIS_HOST}',
-               '--build-arg',
-              '_REDIS_PORT=${_REDIS_PORT}',
-               '--build-arg',
-              '_REDIS_PASSWORD=${_REDIS_PASSWORD}',
-               '--build-arg',
-              '_PORT=${_PORT}',
               '-t',
               'gcr.io/test-cloud-run-project-338708/test-app',
               '.',

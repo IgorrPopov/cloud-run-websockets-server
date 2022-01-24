@@ -6,9 +6,9 @@ import { ChatGateway } from './chat.gateway';
   imports: [
     CacheModule.register({
       store: redisStore,
-      host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT,
-      auth_pass: process.env.REDIS_PASSWORD,
+      host: 'redis-14045.c250.eu-central-1-1.ec2.cloud.redislabs.com',
+      port: 14045,
+      auth_pass: '08nV38qyxdgzkm9CKr9hZ5hh2A3g71pE',
     }),
   ],
   providers: [ChatGateway],
