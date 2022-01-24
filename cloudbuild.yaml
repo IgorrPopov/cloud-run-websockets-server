@@ -28,8 +28,6 @@ steps:
           - '--service-account'
           - '1000707561735-compute@developer.gserviceaccount.com'
           - '--allow-unauthenticated'
-        #   - '--vpc-connector'
-        #   - 'test-connector'
 
 images:
     - 'gcr.io/test-cloud-run-project-338708/test-app'
